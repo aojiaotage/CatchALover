@@ -133,4 +133,21 @@ describe('models/lover.js', () => {
       expect(spy.called).eql(true)
     })
   })
+  describe('#fetch()', () => {
+    const spyRedisService = {}
+    let spy = null
+    beforeEach(() => {
+      spy = sinon.spy()
+      spyRedisService.fetchLover = spy
+    })
+    afterEach(() => {
+      spy.reset()
+    })
+
+    it('Lover fetch a lover from db, with an id', async () => {
+      let id = 'an id'
+      await Lover.fetch(spyRedisService, id)
+      expect(spy.calledWith(id)).eql(true)
+    })
+  })
 })

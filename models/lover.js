@@ -1,11 +1,15 @@
 class Lover {
   constructor (initObj) {
-    this.id = new Date()
-    this.health = 100
-    this.clothed = false
-    this.stamina = 100
-    this.speed = 10
-    this.hidden = false
+    if (initObj) {
+      Object.assign(this, initObj)
+    } else {
+      this.id = new Date()
+      this.health = 100
+      this.clothed = false
+      this.stamina = 100
+      this.speed = 10
+      this.hidden = false
+    }
   }
 
   walk () {
@@ -32,11 +36,14 @@ class Lover {
     this.hidden = sceneService.hide(this)
   }
 
-  save (dbService) {
+  async save (dbService) {
+    dbService.saveLover(this)
   }
 }
 
-Lover.fetch = async function (id) {
+Lover.fetch = async function (dbService, id) {
+  let initObj = await dbService.fetchLover(id)
+  return new Lover(initObj)
 }
 
 module.exports = Lover
