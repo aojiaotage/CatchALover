@@ -25,15 +25,20 @@ describe('models/lover.js', () => {
     })
   })
   describe('#run()', () => {
-    let lover = new Lover()
+    let lover = null
+    beforeEach(() => {
+      lover = new Lover()
+    })
     it('runing consumes stamina by 10 per time', () => {
-      expect(lover.run).to.decrease(lover, 'stamina')
+      let stamina = lover.stamina
+      lover.run()
+      expect(lover.stamina).to.eql(stamina - 10)
     })
     it('runing consumes stamina but stamina can never fall over 0', () => {
       for (let i = 0; i < 100; i++) {
         lover.run()
       }
-      expect(lover.stamina).to.be.above(0)
+      expect(lover.stamina).to.be.at.least(0)
     })
     it('running makes the speed increase to 20', () => {
       lover.run()
@@ -44,6 +49,38 @@ describe('models/lover.js', () => {
         lover.run()
       }
       expect(lover.speed).to.eql(0)
+    })
+  })
+  describe('#walk()', () => {
+    let lover = null
+    beforeEach(() => {
+      lover = new Lover()
+      for (let i = 0; i < 100; i++) {
+        lover.run()
+      }
+    })
+    it('walking restores stamina by 5 per time', () => {
+      let stamina = lover.stamina
+      lover.walk()
+      expect(lover.stamina).to.eql(stamina + 5)
+    })
+    it('walking restores stamina but stamina can never go over 100', () => {
+      for (let i = 0; i < 100; i++) {
+        lover.walk()
+      }
+      expect(lover.stamina).to.be.at.most(100)
+    })
+    it('walking makes the speed back to 10', () => {
+      lover.walk()
+      expect(lover.speed).to.eql(10)
+    })
+    it('walking at 100 stamina keeps speed & stamina the same', () => {
+      lover = new Lover()
+      let stamina = lover.stamina
+      let speed = lover.speed
+      lover.walk()
+      expect(lover.speed).eql(speed)
+      expect(lover.stamina).eql(stamina)
     })
   })
 })
