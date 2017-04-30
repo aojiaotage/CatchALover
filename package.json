@@ -6,6 +6,7 @@
   "license": "MIT",
   "dependencies": {
     "chai": "^3.5.0",
+    "ioredis": "^2.5.0",
     "mocha": "^3.3.0",
     "sinon": "^2.1.0",
     "testdouble": "^2.1.2"

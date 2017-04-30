@@ -1,5 +1,6 @@
 const expect = require('chai').expect
 const Lover = require('../../models/lover')
+const sinon = require('sinon')
 
 describe('models/lover.js', () => {
   describe('#constructor()', () => {
@@ -22,6 +23,14 @@ describe('models/lover.js', () => {
 
     it('expect a lover can clothing up', () => {
       expect(lover.clothingUp).to.be.a('function')
+    })
+
+    it('expect to generate a lover with properties specified in init obj', () => {
+      lover.health = 10
+      lover.stamina = 20
+      lover.hidden = true
+      let anotherLover = new Lover(lover)
+      expect(anotherLover).eql(lover)
     })
   })
   describe('#run()', () => {
@@ -105,6 +114,23 @@ describe('models/lover.js', () => {
       }
       lover.hide(stubSceneService)
       expect(lover.hidden).eql(false)
+    })
+  })
+  describe('#save()', () => {
+    const spyRedisService = {}
+    let spy = null
+    beforeEach(() => {
+      spy = sinon.spy()
+      spyRedisService.saveLover = spy
+    })
+    afterEach(() => {
+      spy.reset()
+    })
+
+    it('lover saves himself to db', () => {
+      let lover = new Lover()
+      lover.save(spyRedisService)
+      expect(spy.called).eql(true)
     })
   })
 })

@@ -1,5 +1,6 @@
 class Lover {
-  constructor () {
+  constructor (initObj) {
+    this.id = new Date()
     this.health = 100
     this.clothed = false
     this.stamina = 100
@@ -30,6 +31,12 @@ class Lover {
   hide (sceneService) {
     this.hidden = sceneService.hide(this)
   }
+
+  save (dbService) {
+  }
+}
+
+Lover.fetch = async function (id) {
 }
 
 module.exports = Lover
