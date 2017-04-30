@@ -27,8 +27,8 @@ class Lover {
 
   }
 
-  hide (somewhere) {
-
+  hide (sceneService) {
+    this.hidden = sceneService.hide(this)
   }
 }
 

@@ -83,4 +83,28 @@ describe('models/lover.js', () => {
       expect(lover.stamina).eql(stamina)
     })
   })
+  describe('#hide()', () => {
+    let lover = null
+    beforeEach(() => {
+      lover = new Lover()
+    })
+    it('lover finds a place to hide, if there is any, toggle hidden status', () => {
+      let stubSceneService = {
+        hide () {
+          return true
+        }
+      }
+      lover.hide(stubSceneService)
+      expect(lover.hidden).eql(true)
+    })
+    it('lover finds a place to hide, if there is not any, he might not hide', () => {
+      let stubSceneService = {
+        hide () {
+          return false
+        }
+      }
+      lover.hide(stubSceneService)
+      expect(lover.hidden).eql(false)
+    })
+  })
 })
